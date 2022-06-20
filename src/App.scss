@@ -1,0 +1,310 @@
+@import "./variables.scss";
+
+main {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  background-image: $bg;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 0;
+  .helper {
+    margin-bottom: 10px;
+    z-index: 2;
+    width: 830px;
+    padding: 10px;
+    background: rgba($color: $secondary, $alpha: 0.15);
+    border-radius: 5px;
+    border: 1px solid rgba($color: white, $alpha: 0.25);
+    box-shadow: 0 0 20px -10px black;
+    backdrop-filter: blur(2px) brightness(75%);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    .left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      .turn {
+        margin-left: 25px;
+        margin-right: 5px;
+        color: $secondary;
+        font-size: 18px;
+        font-weight: bold;
+        .in-check {
+          color: red;
+        }
+      }
+    }
+    .right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .helper-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: $secondary;
+      padding: 7px 10px;
+      border-radius: 5px;
+      border: 1px solid rgba($color: white, $alpha: 0.25);
+      cursor: pointer;
+      background: $secondary;
+      transition: 0.25s all ease-in-out;
+      background: rgba($color: $secondary, $alpha: 0.25);
+      margin-left: 10px;
+      position: relative;
+      backdrop-filter: blur(2px) brightness(75%);
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .selector {
+      position: absolute;
+      right: 0;
+      top: 110%;
+      padding: 5px;
+      background: white;
+      box-shadow: 0 0 20px -10px black;
+      border-radius: 5px;
+      transition: 0.25s all ease-in-out;
+      .theme-option {
+        width: 200px;
+        padding: 10px;
+        background: white;
+        color: black;
+        font-weight: bold;
+        text-transform: capitalize;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .preview {
+          width: 50px;
+          height: 15px;
+          margin-right: 10px;
+          border-radius: 5px;
+        }
+      }
+      .theme-option:first-child {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .theme-option:last-child {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+      .theme-option.selected {
+        background: lightgrey;
+      }
+    }
+  }
+  .board {
+    width: 830px;
+    height: 830px;
+    border: 1px solid rgba($color: white, $alpha: 0.25);
+    border-radius: 5px;
+    background: rgba($color: $secondary, $alpha: 0.15);
+    padding: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(8, 100px);
+    grid-template-rows: repeat(8, 100px);
+    box-shadow: 0px 0px 25px 0px black;
+    backdrop-filter: blur(2px) brightness(75%);
+    .tile {
+      height: 100px;
+      width: 100px;
+      position: relative;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .piece {
+        cursor: grab;
+        height: 100%;
+        display: grid;
+        place-content: center;
+        img {
+          height: 70px;
+          margin: 0 auto;
+          opacity: 0.95;
+        }
+      }
+      .piece:active {
+        cursor: grabbing;
+      }
+      .hinted {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 25%;
+        width: 25%;
+        background: #888;
+        border-radius: 50px;
+      }
+      .piece-hinted {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 100%;
+        width: 100%;
+        background: maroon;
+      }
+      .filler {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        transform: translate(-50%, -50%);
+        border-radius: 30px;
+        background: inherit;
+      }
+      .king-checked {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 100%;
+        width: 100%;
+        background: maroon;
+      }
+    }
+    .promotion-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      background: rgba($color: black, $alpha: 0.75);
+      backdrop-filter: blur(2px);
+      .promotion-tile {
+        width: 150px;
+        height: 150px;
+        background: $secondary;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px -10px black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        img {
+          width: 70px;
+        }
+      }
+    }
+    .dark-tile {
+      background: $primary;
+    }
+    .white-tile {
+      background: $secondary;
+    }
+    .promotion-indicator {
+      background: red;
+    }
+  }
+  .game-over-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba($color: black, $alpha: 0.75);
+    backdrop-filter: blur(10px);
+    color: white;
+    z-index: 9;
+    .game-over {
+      font-size: 25px;
+    }
+    .result {
+      font-size: 35px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 15px;
+      font-size: 18px;
+      cursor: pointer;
+      border: none;
+      margin: 10px;
+      color: #4b291d;
+      background: rgba(255, 255, 255, 0.9);
+      transition: 0.25s all ease-in-out;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.black {
+  background-image: $bgBlack;
+  .board {
+    .dark-tile {
+      background: $primaryBlack;
+    }
+  }
+}
+
+.blue {
+  background-image: $bgBlue;
+  .board {
+    .dark-tile {
+      background: $primaryBlue;
+    }
+  }
+}
+
+.brown {
+  background-image: $bgBrown;
+  .board {
+    .dark-tile {
+      background: $primaryBrown;
+    }
+  }
+}
+
+.purple {
+  background-image: $bgPurple;
+  .board {
+    .dark-tile {
+      background: $primaryPurple;
+    }
+  }
+}
+
+.green {
+  background-image: $bgGreen;
+  .board {
+    .dark-tile {
+      background: $primaryGreen;
+    }
+  }
+}
